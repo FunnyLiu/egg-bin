@@ -10,6 +10,7 @@ class EggBin extends Command {
     this.usage = 'Usage: egg-bin [command] [options]';
     // 将lib/cmd下命令load
     // load directory
+    // load lib/cmd文件夹下的所有命令。
     this.load(path.join(__dirname, 'lib/cmd'));
   }
 }

@@ -24,6 +24,10 @@ egg developer tool, extends [common-bin].
 
 # 源码分析
 
+提供一些cli命令，继承自common-bin模块。
+
+封装了dev、test等cli命令。
+
 ## 文件结构
 
 ``` bash
@@ -33,16 +37,16 @@ egg developer tool, extends [common-bin].
 |  └── mocha.js - 注册mocha命令，使用mocha
 ├── index.js - 继承自lib/command.js的Command，将lib/cmd文件夹自内容load，对外暴露各种命令。
 ├── lib
-|  ├── cmd
-|  |  ├── autod.js
-|  |  ├── cov.js
-|  |  ├── debug.js
-|  |  ├── dev.js
-|  |  ├── pkgfiles.js
-|  |  └── test.js
-|  ├── command.js
+|  ├── cmd - 文件下所有命令通过common-bin模块的load加载到命令列表
+|  |  ├── autod.js - 对autod模块的bin/autod.js套一层，使用common-bin的helper.forkNode来fork一个子进程执行autod命令。
+|  |  ├── cov.js - 对nyc模块的bin/nyc.js套一层，使用common-bin的helper.forkNode来fork一个子进程执行nyc命令。
+|  |  ├── debug.js - 提供debug命令，调试功能
+|  |  ├── dev.js - 提供dev命令，启动进程
+|  |  ├── pkgfiles.js - 提供pkgfiles命令，生成pkg.files
+|  |  └── test.js - 底层调用mocha
+|  ├── command.js - 继承自common-bin模块，作为lib/cmd下各class的基类。
 |  ├── mocha-clean.js
-|  └── start-cluster
+|  └── start-cluster - 调用framework.startCluster启动单进程
 ```
 
 ---
@@ -51,6 +55,9 @@ egg developer tool, extends [common-bin].
 
 ![img](./graphviz/module.svg)
 
+### 核心模板依赖源码分析
+
+- [common-bin源码分析](https://github.com/FunnyLiu/common-bin/tree/readsource)
 
 ## 内部模块依赖
 
@@ -74,9 +81,51 @@ egg developer tool, extends [common-bin].
 
 ### index.js
 
-继承自lib/command.js的Command，将lib/cmd文件夹自内容load。
+继承自lib/command.js的Command，将lib/cmd文件夹内容load。
 
 对外暴露各种命令。
+
+### lib/command.js
+
+继承自common-bin模块，根据参数提供各环境变量到context上。
+
+### lib/cmd/autod.js
+
+对autod模块的bin/autod.js套一层，使用common-bin的helper.forkNode来fork一个子进程执行autod命令。
+
+### lib/cmd/cov.js
+
+继承自lib/cmd/test.js。
+
+对nyc模块的bin/nyc.js套一层，使用common-bin的helper.forkNode来fork一个子进程执行nyc命令。
+
+
+
+### lib/cmd/debug.js
+
+继承自lib/cmd/dev.js。
+
+同样调用start-cluster.js文件作为子进程命令，env.EGG_DEBUG为true。
+
+基于inspector-proxy模块代理调试。
+
+### lib/cmd/dev.js
+
+调用start-cluster.js文件作为子进程命令。
+
+挂载framework到argv上。framework取自egg-utils的getFrameworkPath()方法。
+
+### lib/cmd/test.js
+
+底层调用mocha。
+
+### lib/start-cluster
+
+调用argv上的framework.startCluster启动单进程。
+
+其中framework来自lib/cmd/dev.js中挂载到argv上的。
+
+---
 
 ## Install
 
