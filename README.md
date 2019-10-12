@@ -55,7 +55,7 @@ egg developer tool, extends [common-bin].
 
 ![img](./graphviz/module.svg)
 
-### 核心模板依赖源码分析
+### 核心依赖模块源码分析
 
 - [common-bin源码分析](https://github.com/FunnyLiu/common-bin/tree/readsource)
 
