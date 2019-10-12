@@ -1,0 +1,28 @@
+digraph G {
+
+  nodesep=0.5;
+  charset="UTF-8";
+  rankdir=LR;
+  fixedsize=true;
+  compound=true;
+  node [style="rounded,filled", width=0, height=0, shape=box, fillcolor="#E5E5E5", concentrate=true]
+
+  "index.js";
+  "lib/cmd/cov.js";
+  "lib/cmd/debug.js";
+  "lib/cmd/dev.js";
+  "lib/cmd/pkgfiles.js";
+  "lib/cmd/test.js";
+  "lib/command.js";
+  "index.js" -> "lib/cmd/cov.js";
+  "index.js" -> "lib/cmd/debug.js";
+  "index.js" -> "lib/cmd/dev.js";
+  "index.js" -> "lib/cmd/pkgfiles.js";
+  "index.js" -> "lib/cmd/test.js";
+  "index.js" -> "lib/command.js";
+  "lib/cmd/cov.js" -> "lib/cmd/test.js";
+  "lib/cmd/debug.js" -> "lib/cmd/dev.js";
+  "lib/cmd/dev.js" -> "lib/command.js";
+  "lib/cmd/pkgfiles.js" -> "lib/command.js";
+  "lib/cmd/test.js" -> "lib/command.js";
+}

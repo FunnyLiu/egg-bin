@@ -22,7 +22,61 @@
 
 egg developer tool, extends [common-bin].
 
+# 源码分析
+
+## 文件结构
+
+``` bash
+├── bin
+|  ├── egg-bin.js - 注册命令egg-bin，调用index.js的start()方法
+|  ├── ets.js - 注册ets命令，使用egg-ts-helper的bin
+|  └── mocha.js - 注册mocha命令，使用mocha
+├── index.js - 继承自lib/command.js的Command，将lib/cmd文件夹自内容load，对外暴露各种命令。
+├── lib
+|  ├── cmd
+|  |  ├── autod.js
+|  |  ├── cov.js
+|  |  ├── debug.js
+|  |  ├── dev.js
+|  |  ├── pkgfiles.js
+|  |  └── test.js
+|  ├── command.js
+|  ├── mocha-clean.js
+|  └── start-cluster
+```
+
 ---
+
+## 外部模块依赖
+
+![img](./graphviz/module.svg)
+
+
+## 内部模块依赖
+
+![img](./graphviz/inline.gv.svg)
+
+## 逐个文件分析
+
+
+### bin/egg-bin.js
+
+注册命令egg-bin，调用index.js的start()方法。
+
+### bin/ets.js
+
+注册ets命令，使用egg-ts-helper的bin。
+
+### bin/mocha.js
+
+注册mocha命令，使用mocha。
+
+
+### index.js
+
+继承自lib/command.js的Command，将lib/cmd文件夹自内容load。
+
+对外暴露各种命令。
 
 ## Install
 
